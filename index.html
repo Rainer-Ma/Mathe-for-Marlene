@@ -1,0 +1,1767 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mathe Glow-Up</title>
+  <meta name="description" content="Moderne Mathe-Lernapp für Klasse 10: Geometrie, Volumen, Oberfläche und mehr." />
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    :root {
+      --bg1: #f5f3ff;
+      --bg2: #fdf2f8;
+      --bg3: #eff6ff;
+      --panel: rgba(255,255,255,0.72);
+      --panel-strong: rgba(255,255,255,0.9);
+      --line: rgba(255,255,255,0.5);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #7c3aed;
+      --accent-2: #ec4899;
+      --accent-3: #38bdf8;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+      --success-bg: rgba(236, 253, 245, 0.95);
+      --success-line: #86efac;
+      --success-text: #14532d;
+      --error-bg: rgba(255, 241, 242, 0.95);
+      --error-line: #fda4af;
+      --error-text: #881337;
+      --hint-bg: rgba(254, 252, 232, 0.96);
+      --hint-line: #fde68a;
+      --hint-text: #854d0e;
+      --chip: rgba(255,255,255,0.74);
+      --button-text: #ffffff;
+      --surface: rgba(255,255,255,0.58);
+      --surface-hover: rgba(255,255,255,0.82);
+      --surface-active: linear-gradient(135deg, rgba(124,58,237,0.95), rgba(236,72,153,0.95));
+      --progress: linear-gradient(90deg, #7c3aed, #ec4899 65%, #38bdf8);
+      --hero: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(236,72,153,0.16), rgba(56,189,248,0.18));
+    }
+
+    body.theme-midnight {
+      --bg1: #0f172a;
+      --bg2: #111827;
+      --bg3: #1e1b4b;
+      --panel: rgba(15,23,42,0.76);
+      --panel-strong: rgba(15,23,42,0.92);
+      --line: rgba(148,163,184,0.18);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #a78bfa;
+      --accent-2: #f472b6;
+      --accent-3: #67e8f9;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+      --success-bg: rgba(20, 83, 45, 0.3);
+      --success-line: #4ade80;
+      --success-text: #dcfce7;
+      --error-bg: rgba(136, 19, 55, 0.35);
+      --error-line: #fb7185;
+      --error-text: #ffe4e6;
+      --hint-bg: rgba(133, 77, 14, 0.28);
+      --hint-line: #facc15;
+      --hint-text: #fef3c7;
+      --chip: rgba(30,41,59,0.82);
+      --button-text: #ffffff;
+      --surface: rgba(30,41,59,0.72);
+      --surface-hover: rgba(51,65,85,0.92);
+      --surface-active: linear-gradient(135deg, rgba(167,139,250,0.95), rgba(244,114,182,0.95));
+      --progress: linear-gradient(90deg, #a78bfa, #f472b6 65%, #67e8f9);
+      --hero: linear-gradient(135deg, rgba(167,139,250,0.16), rgba(244,114,182,0.14), rgba(103,232,249,0.18));
+    }
+
+    body.theme-matcha {
+      --bg1: #f0fdf4;
+      --bg2: #ecfeff;
+      --bg3: #fefce8;
+      --panel: rgba(255,255,255,0.78);
+      --panel-strong: rgba(255,255,255,0.92);
+      --line: rgba(16,185,129,0.14);
+      --text: #12372a;
+      --muted: #4b6b63;
+      --accent: #10b981;
+      --accent-2: #14b8a6;
+      --accent-3: #84cc16;
+      --shadow: 0 20px 60px rgba(16, 185, 129, 0.12);
+      --chip: rgba(255,255,255,0.8);
+      --button-text: #ffffff;
+      --surface: rgba(255,255,255,0.68);
+      --surface-hover: rgba(255,255,255,0.92);
+      --surface-active: linear-gradient(135deg, rgba(16,185,129,0.95), rgba(20,184,166,0.95));
+      --progress: linear-gradient(90deg, #10b981, #14b8a6 70%, #84cc16);
+      --hero: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(20,184,166,0.14), rgba(132,204,22,0.16));
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,0.52), transparent 38%),
+        radial-gradient(circle at 100% 10%, rgba(255,255,255,0.34), transparent 28%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 48%, var(--bg3));
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 25% 15%, rgba(255,255,255,0.28), transparent 22%),
+        radial-gradient(circle at 80% 28%, rgba(255,255,255,0.20), transparent 16%),
+        radial-gradient(circle at 40% 85%, rgba(255,255,255,0.18), transparent 18%);
+      filter: blur(18px);
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .pill, select, button, input {
+      font: inherit;
+    }
+
+    .theme-pick {
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.8fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .hero-card, .vibe-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 26px;
+      background-image: var(--hero);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--chip);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 7vw, 64px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 720px;
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .card-inner {
+      padding: 20px;
+    }
+
+    .stat-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin: 7px 0 0;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .small {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .progress {
+      margin-top: 14px;
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.18);
+      overflow: hidden;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0%;
+      background: var(--progress);
+      border-radius: 999px;
+      transition: width 0.24s ease;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .section-sub {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .module-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .module-btn {
+      width: 100%;
+      text-align: left;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid transparent;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.18s ease;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .module-btn:hover {
+      transform: translateY(-1px);
+      background: var(--surface-hover);
+    }
+
+    .module-btn.active {
+      background: var(--surface-active);
+      color: white;
+      box-shadow: 0 12px 28px rgba(124,58,237,0.24);
+    }
+
+    .module-row {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .module-name {
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .module-sub {
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .module-btn.active .module-sub,
+    .module-btn.active .module-score {
+      color: rgba(255,255,255,0.84);
+    }
+
+    .module-score {
+      font-weight: 800;
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .task-card .card-inner {
+      padding: 26px;
+    }
+
+    .task-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .task-question {
+      margin: 0 0 20px;
+      font-size: clamp(26px, 4.2vw, 40px);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    input {
+      min-width: 0;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: var(--panel-strong);
+      color: var(--text);
+      font-size: 18px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    input::placeholder {
+      color: color-mix(in srgb, var(--muted) 78%, transparent);
+    }
+
+    input:focus, .theme-pick:focus {
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    }
+
+    .unit {
+      min-width: 88px;
+      display: grid;
+      place-items: center;
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .calc-preview {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .calc-preview strong {
+      color: var(--text);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 18px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      transition: 0.18s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--button-text);
+      box-shadow: 0 12px 28px rgba(124,58,237,0.22);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-1px);
+      filter: saturate(1.05);
+    }
+
+    .btn.secondary {
+      background: var(--panel-strong);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn.secondary:hover, .theme-pick:hover {
+      background: var(--surface-hover);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn.ghost:hover {
+      background: var(--surface-hover);
+    }
+
+    .notice {
+      border-radius: 22px;
+      padding: 16px;
+      margin-top: 14px;
+      line-height: 1.55;
+      border: 1px solid;
+      font-size: 15px;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 900;
+    }
+
+    .notice.hint {
+      background: var(--hint-bg);
+      border-color: var(--hint-line);
+      color: var(--hint-text);
+    }
+
+    .notice.success {
+      background: var(--success-bg);
+      border-color: var(--success-line);
+      color: var(--success-text);
+    }
+
+    .notice.error {
+      background: var(--error-bg);
+      border-color: var(--error-line);
+      color: var(--error-text);
+    }
+
+    .notice.warning {
+      background: var(--panel-strong);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .vibe-card {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .vibe-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .vibe-block {
+      border-radius: 22px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+
+    .vibe-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .vibe-block p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .errors {
+      margin-top: 18px;
+    }
+
+    .error-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .error-item {
+      border: 1px solid var(--line);
+      background: var(--panel-strong);
+      border-radius: 20px;
+      padding: 14px;
+    }
+
+    .error-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .error-q {
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .error-date {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .empty {
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .install-box {
+      display: none;
+      margin-bottom: 14px;
+      border-radius: 22px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .install-box.show {
+      display: flex;
+    }
+
+    .install-box strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .app { padding: 12px; }
+      .hero-card, .vibe-card, .card { border-radius: 24px; }
+      .hero-card { padding: 20px; }
+      .task-card .card-inner, .card-inner { padding: 18px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .answer-row {
+        grid-template-columns: 1fr auto;
+      }
+      .answer-row .btn.primary {
+        grid-column: 1 / -1;
+      }
+      .topbar, .toolbar { align-items: stretch; }
+      .toolbar { width: 100%; }
+      .toolbar > * { flex: 1; }
+      .theme-pick, .toolbar .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body class="theme-glow">
+  <main class="app">
+    <div class="wrap">
+      <div id="installBox" class="install-box">
+        <div>
+          <strong>Installieren?</strong>
+          <div style="color:var(--muted); font-size:14px;">Dann fühlt es sich wirklich wie eine App an – direkt auf dem Homescreen.</div>
+        </div>
+        <button id="installBtn" class="btn primary">App installieren</button>
+      </div>
+
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-badge">∑</div>
+          <div>Mathe Glow‑Up</div>
+        </div>
+        <div class="toolbar">
+          <select id="themeSelect" class="theme-pick" aria-label="Theme wählen">
+            <option value="glow">Glow</option>
+            <option value="midnight">Midnight</option>
+            <option value="matcha">Matcha</option>
+          </select>
+          <button id="resetBtn" class="btn ghost">Fortschritt resetten</button>
+        </div>
+      </div>
+
+      <section class="hero">
+        <article class="hero-card">
+          <div class="eyebrow">✨ Klasse 10 · Geometrie zuerst · Mathe ohne Cringe</div>
+          <h1>Mathe,<br>aber in hübsch.</h1>
+          <p class="lead">Kurze Übungen, bessere Vibes, klare Erklärungen und ein Fehlertraining, das wirklich hilft. Fokus gerade: <strong>Geometrie, Volumen und Oberfläche</strong>.</p>
+          <div class="hero-actions">
+            <div class="chip">💡 Rechnungen direkt eingeben</div>
+            <div class="chip">📈 Fortschritt bleibt gespeichert</div>
+            <div class="chip">🫶 nicht kindisch, nur hilfreich</div>
+            <div class="chip">📐 sin · cos · tan ready</div>
+          </div>
+        </article>
+
+        <aside class="vibe-card">
+          <h2 class="vibe-title">Dein Mathe‑Mood</h2>
+          <div class="vibe-block">
+            <strong id="moodTitle">Heute: ruhig + konzentriert</strong>
+            <p id="moodText">Du musst nicht alles sofort können. Eine Aufgabe nach der anderen reicht völlig.</p>
+          </div>
+          <div class="vibe-block">
+            <strong id="levelLabel">Level 1 · Warmwerden</strong>
+            <p id="levelText">Mit jeder gelösten Aufgabe wird das hier mehr dein Terrain.</p>
+          </div>
+          <div class="vibe-block">
+            <strong id="focusLabel">Aktueller Fokus</strong>
+            <p id="focusText">Volumen von Quader, Würfel und Zylinder + Umrechnungen.</p>
+          </div>
+          <div class="footer-note">Mini‑Reminder: Perfekt sein ist nicht das Ziel. Verstehen ist das Ziel.</div>
+        </aside>
+      </section>
+
+      <section class="stat-grid" aria-label="Fortschritt">
+        <article class="card">
+          <div class="card-inner">
+            <p class="stat-label">Heute geschafft</p>
+            <p id="answered" class="stat-value">0</p>
+            <div class="progress"><div id="dailyBar"></div></div>
+            <div class="small">Tagesziel: 15 Aufgaben. Kleine Schritte counten.</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <p class="stat-label">Trefferquote</p>
+            <p id="accuracy" class="stat-value">0 %</p>
+            <div class="small">Fehler = Hinweise, nicht Drama.</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <p class="stat-label">Streak</p>
+            <p id="streak" class="stat-value">0</p>
+            <div class="small">Richtige Antworten hintereinander.</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <p class="stat-label">Fehlerheft</p>
+            <p id="errorCount" class="stat-value">0</p>
+            <div class="small">Hier landet alles, was wir nochmal clever üben.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="layout">
+        <aside class="card">
+          <div class="card-inner">
+            <h2 class="section-title">Themen</h2>
+            <p class="section-sub">Gerade ist Geometrie ganz oben, aber du kannst jederzeit wechseln.</p>
+            <div id="moduleList" class="module-list"></div>
+          </div>
+        </aside>
+
+        <section>
+          <article class="card task-card">
+            <div class="card-inner">
+              <div class="task-top">
+                <div>
+                  <div class="chip-row">
+                    <div class="chip" id="moduleChip">📐 Geometrie</div>
+                    <div class="chip" id="challengeChip">Let’s go</div>
+                  </div>
+                </div>
+                <div class="chip">🧮 Du kannst auch eine Rechnung eintippen</div>
+              </div>
+
+              <h2 id="question" class="task-question"></h2>
+
+              <div class="answer-row">
+                <input id="answerInput" inputmode="decimal" autocomplete="off" placeholder="Antwort oder Rechnung eingeben, z. B. 8*5*3" />
+                <div id="unit" class="unit"></div>
+                <button id="checkBtn" class="btn primary">Checken</button>
+              </div>
+
+              <div id="calcPreview" class="calc-preview"></div>
+
+              <div class="actions">
+                <button id="hintBtn" class="btn ghost">Tipp zeigen</button>
+                <button id="nextBtn" class="btn secondary">Neue Aufgabe</button>
+              </div>
+
+              <div id="hintBox"></div>
+              <div id="feedbackBox"></div>
+            </div>
+          </article>
+
+          <article class="card errors">
+            <div class="card-inner">
+              <h2 class="section-title">Fehlertraining</h2>
+              <p class="section-sub">Nicht peinlich, sondern praktisch: Hier findest du Aufgaben, die wir nochmal smarter üben.</p>
+              <div id="errorList"></div>
+            </div>
+          </article>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "matheGlowUpProgress_v1";
+    const THEME_KEY = "matheGlowUpTheme_v1";
+    const dailyGoal = 15;
+
+    const modules = [
+      { id: "geometry", emoji: "📦", title: "Geometrie & Volumen", subtitle: "Quader, Würfel, Zylinder, Einheiten" },
+      { id: "surface", emoji: "🧊", title: "Oberfläche", subtitle: "Quader, Würfel, Zylinder" },
+      { id: "trig", emoji: "📐", title: "sin · cos · tan", subtitle: "rechtwinklige Dreiecke, Winkel, Seiten" },
+      { id: "percent", emoji: "💸", title: "Prozentrechnung", subtitle: "Rabatt, Grundwert, Prozentwert" },
+      { id: "equations", emoji: "✏️", title: "Gleichungen", subtitle: "x finden, Schritt für Schritt" },
+      { id: "basics", emoji: "🧠", title: "Grundlagen", subtitle: "Negative Zahlen, Klammern, Brüche" },
+      { id: "care", emoji: "🩺", title: "Berufsalltag", subtitle: "ml, l, Zeiten, alltagsnahe Beispiele" }
+    ];
+
+    const moodMessages = [
+      { title: "Heute: ruhig + konzentriert", text: "Du musst nicht alles sofort können. Eine Aufgabe nach der anderen reicht völlig." },
+      { title: "Heute: main character energy", text: "Nicht alles easy – aber du lässt dich auch nicht von Mathe stressen." },
+      { title: "Heute: cute & clever", text: "Ein bisschen rechnen, ein bisschen verstehen, und plötzlich läuft’s besser als gedacht." },
+      { title: "Heute: Fokusmodus", text: "Wenn’s kurz nervt: durchatmen, weitermachen, Punkt holen." },
+      { title: "Heute: keine Panik", text: "Selbst wenn du mal hängst, heißt das nur: gerade im Lernmodus." }
+    ];
+
+    const challengeTexts = [
+      "Mini‑Challenge",
+      "Du schaffst das",
+      "Let’s go",
+      "Take the win",
+      "Kurz durchziehen"
+    ];
+
+    const initialProgress = {
+      answered: 0,
+      correct: 0,
+      streak: 0,
+      errors: [],
+      moduleStats: {
+        geometry: { answered: 0, correct: 0 },
+        surface: { answered: 0, correct: 0 },
+        trig: { answered: 0, correct: 0 },
+        percent: { answered: 0, correct: 0 },
+        equations: { answered: 0, correct: 0 },
+        basics: { answered: 0, correct: 0 },
+        care: { answered: 0, correct: 0 }
+      }
+    };
+
+    let selectedModule = "geometry";
+    let task = null;
+    let progress = loadProgress();
+    let deferredInstallPrompt = null;
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function round2(value) {
+      return Math.round(value * 100) / 100;
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return clone(initialProgress);
+        const parsed = JSON.parse(raw);
+        parsed.moduleStats = parsed.moduleStats || {};
+        Object.keys(initialProgress.moduleStats).forEach((key) => {
+          if (!parsed.moduleStats[key]) parsed.moduleStats[key] = { answered: 0, correct: 0 };
+        });
+        return parsed;
+      } catch {
+        return clone(initialProgress);
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+
+    function saveTheme(value) {
+      localStorage.setItem(THEME_KEY, value);
+    }
+
+    function loadTheme() {
+      return localStorage.getItem(THEME_KEY) || "glow";
+    }
+
+    function applyTheme(theme) {
+      document.body.className = "theme-" + theme;
+      document.getElementById("themeSelect").value = theme;
+      saveTheme(theme);
+    }
+
+    function evaluateMathInput(input) {
+      const raw = String(input || "").trim();
+      if (!raw) return { ok: false, error: "empty" };
+
+      let expression = raw
+        .toLowerCase()
+        .replaceAll(",", ".")
+        .replaceAll("π", "pi")
+        .replaceAll("×", "*")
+        .replaceAll("·", "*")
+        .replaceAll(":", "/")
+        .replaceAll("²", "^2")
+        .replaceAll("³", "^3")
+        .replace(/\s+/g, "");
+
+      if (!/^[0-9+\-*/^().pi]+$/.test(expression)) {
+        return { ok: false, error: "bad_characters" };
+      }
+
+      try {
+        const tokens = tokenizeExpression(expression);
+        const rpn = toRpn(tokens);
+        const value = evalRpn(rpn);
+        if (!Number.isFinite(value)) return { ok: false, error: "not_finite" };
+        return { ok: true, value, expression };
+      } catch {
+        return { ok: false, error: "parse_error" };
+      }
+    }
+
+    function tokenizeExpression(expression) {
+      const tokens = [];
+      let i = 0;
+      let prevType = "start";
+
+      while (i < expression.length) {
+        const char = expression[i];
+
+        if (/[0-9.]/.test(char)) {
+          let number = char;
+          i++;
+          while (i < expression.length && /[0-9.]/.test(expression[i])) {
+            number += expression[i];
+            i++;
+          }
+          if ((number.match(/\./g) || []).length > 1) throw new Error("bad number");
+          tokens.push({ type: "number", value: Number(number) });
+          prevType = "number";
+          continue;
+        }
+
+        if (expression.slice(i, i + 2) === "pi") {
+          if (prevType === "number" || prevType === "rightParen") {
+            tokens.push({ type: "operator", value: "*" });
+          }
+          tokens.push({ type: "number", value: Math.PI });
+          i += 2;
+          prevType = "number";
+          continue;
+        }
+
+        if (char === "(") {
+          if (prevType === "number" || prevType === "rightParen") {
+            tokens.push({ type: "operator", value: "*" });
+          }
+          tokens.push({ type: "leftParen", value: char });
+          i++;
+          prevType = "leftParen";
+          continue;
+        }
+
+        if (char === ")") {
+          tokens.push({ type: "rightParen", value: char });
+          i++;
+          prevType = "rightParen";
+          continue;
+        }
+
+        if ("+-*/^".includes(char)) {
+          if (char === "-" && (prevType === "start" || prevType === "operator" || prevType === "leftParen")) {
+            tokens.push({ type: "number", value: 0 });
+            tokens.push({ type: "operator", value: "-" });
+            i++;
+            prevType = "operator";
+            continue;
+          }
+
+          if (char === "+" && (prevType === "start" || prevType === "operator" || prevType === "leftParen")) {
+            i++;
+            continue;
+          }
+
+          tokens.push({ type: "operator", value: char });
+          i++;
+          prevType = "operator";
+          continue;
+        }
+
+        throw new Error("unknown token");
+      }
+
+      return tokens;
+    }
+
+    function toRpn(tokens) {
+      const output = [];
+      const stack = [];
+      const precedence = { "+": 1, "-": 1, "*": 2, "/": 2, "^": 3 };
+      const rightAssociative = { "^": true };
+
+      tokens.forEach((token) => {
+        if (token.type === "number") {
+          output.push(token);
+          return;
+        }
+
+        if (token.type === "operator") {
+          while (stack.length) {
+            const top = stack[stack.length - 1];
+            if (top.type !== "operator") break;
+
+            const shouldPop = rightAssociative[token.value]
+              ? precedence[token.value] < precedence[top.value]
+              : precedence[token.value] <= precedence[top.value];
+
+            if (!shouldPop) break;
+            output.push(stack.pop());
+          }
+
+          stack.push(token);
+          return;
+        }
+
+        if (token.type === "leftParen") {
+          stack.push(token);
+          return;
+        }
+
+        if (token.type === "rightParen") {
+          while (stack.length && stack[stack.length - 1].type !== "leftParen") {
+            output.push(stack.pop());
+          }
+          if (!stack.length) throw new Error("missing left paren");
+          stack.pop();
+        }
+      });
+
+      while (stack.length) {
+        const token = stack.pop();
+        if (token.type === "leftParen" || token.type === "rightParen") throw new Error("bad parens");
+        output.push(token);
+      }
+
+      return output;
+    }
+
+    function evalRpn(rpn) {
+      const stack = [];
+
+      rpn.forEach((token) => {
+        if (token.type === "number") {
+          stack.push(token.value);
+          return;
+        }
+
+        const b = stack.pop();
+        const a = stack.pop();
+        if (a === undefined || b === undefined) throw new Error("missing operand");
+
+        if (token.value === "+") stack.push(a + b);
+        if (token.value === "-") stack.push(a - b);
+        if (token.value === "*") stack.push(a * b);
+        if (token.value === "/") stack.push(a / b);
+        if (token.value === "^") stack.push(Math.pow(a, b));
+      });
+
+      if (stack.length !== 1) throw new Error("bad expression");
+      return stack[0];
+    }
+
+    function formatNumber(value) {
+      const rounded = Math.round(value * 10000) / 10000;
+      return String(rounded).replace(".", ",");
+    }
+
+    function generateGeometryTask() {
+      const type = randomInt(1, 5);
+
+      if (type === 1) {
+        const length = randomInt(3, 12);
+        const width = randomInt(2, 10);
+        const height = randomInt(2, 9);
+        const result = length * width * height;
+        return {
+          module: "geometry",
+          question: `Ein Quader ist ${length} cm lang, ${width} cm breit und ${height} cm hoch. Berechne das Volumen.`,
+          answer: result,
+          unit: "cm³",
+          hint: "Beim Quader rechnest du: Länge · Breite · Höhe.",
+          explanation: `Volumen Quader: V = Länge · Breite · Höhe. Also ${length} · ${width} · ${height} = ${result} cm³.`
+        };
+      }
+
+      if (type === 2) {
+        const edge = randomInt(2, 12);
+        const result = edge * edge * edge;
+        return {
+          module: "geometry",
+          question: `Ein Würfel hat eine Kantenlänge von ${edge} cm. Berechne das Volumen.`,
+          answer: result,
+          unit: "cm³",
+          hint: "Beim Würfel: a · a · a oder kurz a³.",
+          explanation: `Volumen Würfel: V = a³. Also ${edge}³ = ${edge} · ${edge} · ${edge} = ${result} cm³.`
+        };
+      }
+
+      if (type === 3) {
+        const radius = randomInt(2, 8);
+        const height = randomInt(3, 12);
+        const result = round2(Math.PI * radius * radius * height);
+        return {
+          module: "geometry",
+          question: `Ein Zylinder hat einen Radius von ${radius} cm und eine Höhe von ${height} cm. Berechne das Volumen. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm³",
+          hint: "Zylinder: Grundfläche · Höhe. Die Kreisfläche ist π · r².",
+          explanation: `Volumen Zylinder: V = π · r² · h. Also π · ${radius}² · ${height} = ${result} cm³.`
+        };
+      }
+
+      if (type === 4) {
+        const dm3 = randomInt(1, 20);
+        return {
+          module: "geometry",
+          question: `Wandle um: ${dm3} dm³ = wie viele Liter?`,
+          answer: dm3,
+          unit: "l",
+          hint: "1 dm³ entspricht genau 1 Liter.",
+          explanation: `1 dm³ = 1 l. Deshalb sind ${dm3} dm³ = ${dm3} l.`
+        };
+      }
+
+      const liters = randomInt(1, 15);
+      return {
+        module: "geometry",
+        question: `Wandle um: ${liters} Liter = wie viele cm³?`,
+        answer: liters * 1000,
+        unit: "cm³",
+        hint: "1 Liter = 1 dm³ = 1000 cm³.",
+        explanation: `1 l = 1000 cm³. Also sind ${liters} l = ${liters} · 1000 = ${liters * 1000} cm³.`
+      };
+    }
+
+    function generateSurfaceTask() {
+      const type = randomInt(1, 4);
+
+      if (type === 1) {
+        const l = randomInt(3, 12);
+        const w = randomInt(2, 9);
+        const h = randomInt(2, 8);
+        const result = 2 * (l * w + l * h + w * h);
+        return {
+          module: "surface",
+          question: `Ein Quader ist ${l} cm lang, ${w} cm breit und ${h} cm hoch. Berechne die gesamte Oberfläche.`,
+          answer: result,
+          unit: "cm²",
+          hint: "Quader: O = 2 · (l·b + l·h + b·h).",
+          explanation: `O = 2 · (${l}·${w} + ${l}·${h} + ${w}·${h}) = 2 · (${l*w} + ${l*h} + ${w*h}) = ${result} cm².`
+        };
+      }
+
+      if (type === 2) {
+        const a = randomInt(2, 12);
+        const result = 6 * a * a;
+        return {
+          module: "surface",
+          question: `Ein Würfel hat eine Kantenlänge von ${a} cm. Berechne die Oberfläche.`,
+          answer: result,
+          unit: "cm²",
+          hint: "Ein Würfel hat 6 gleiche Quadrate. Also 6 · a².",
+          explanation: `O = 6 · ${a}² = 6 · ${a*a} = ${result} cm².`
+        };
+      }
+
+      if (type === 3) {
+        const r = randomInt(2, 7);
+        const h = randomInt(3, 10);
+        const result = round2(2 * Math.PI * r * h);
+        return {
+          module: "surface",
+          question: `Ein Zylinder hat Radius ${r} cm und Höhe ${h} cm. Berechne nur die Mantelfläche. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm²",
+          hint: "Mantelfläche Zylinder: M = 2 · π · r · h.",
+          explanation: `M = 2 · π · ${r} · ${h} = ${result} cm².`
+        };
+      }
+
+      const r = randomInt(2, 7);
+      const h = randomInt(3, 10);
+      const result = round2(2 * Math.PI * r * r + 2 * Math.PI * r * h);
+      return {
+        module: "surface",
+        question: `Ein geschlossener Zylinder hat Radius ${r} cm und Höhe ${h} cm. Berechne die gesamte Oberfläche. Runde auf zwei Nachkommastellen.`,
+        answer: result,
+        unit: "cm²",
+        hint: "Zylinder gesamt: 2πr² + 2πrh.",
+        explanation: `O = 2 · π · ${r}² + 2 · π · ${r} · ${h} = ${result} cm².`
+      };
+    }
+
+
+    function degToRad(degrees) {
+      return degrees * Math.PI / 180;
+    }
+
+    function generateTrigTask() {
+      const type = randomInt(1, 6);
+
+      if (type === 1) {
+        const angle = [20, 25, 30, 35, 40, 45, 50, 55, 60][randomInt(0, 8)];
+        const hyp = randomInt(8, 24);
+        const result = round2(Math.sin(degToRad(angle)) * hyp);
+        return {
+          module: "trig",
+          question: `Ein rechtwinkliges Dreieck hat den Winkel α = ${angle}° und die Hypotenuse ist ${hyp} cm lang. Berechne die Gegenkathete. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm",
+          hint: "Bei Gegenkathete und Hypotenuse brauchst du sin: sin(α) = Gegenkathete / Hypotenuse. Also Gegenkathete = sin(α) · Hypotenuse.",
+          explanation: `sin(${angle}°) = Gegenkathete / ${hyp}. Also Gegenkathete = sin(${angle}°) · ${hyp} = ${result} cm.`
+        };
+      }
+
+      if (type === 2) {
+        const angle = [20, 25, 30, 35, 40, 45, 50, 55, 60][randomInt(0, 8)];
+        const hyp = randomInt(8, 24);
+        const result = round2(Math.cos(degToRad(angle)) * hyp);
+        return {
+          module: "trig",
+          question: `Ein rechtwinkliges Dreieck hat den Winkel α = ${angle}° und die Hypotenuse ist ${hyp} cm lang. Berechne die Ankathete. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm",
+          hint: "Bei Ankathete und Hypotenuse brauchst du cos: cos(α) = Ankathete / Hypotenuse. Also Ankathete = cos(α) · Hypotenuse.",
+          explanation: `cos(${angle}°) = Ankathete / ${hyp}. Also Ankathete = cos(${angle}°) · ${hyp} = ${result} cm.`
+        };
+      }
+
+      if (type === 3) {
+        const angle = [20, 25, 30, 35, 40, 45, 50, 55, 60][randomInt(0, 8)];
+        const adjacent = randomInt(6, 20);
+        const result = round2(Math.tan(degToRad(angle)) * adjacent);
+        return {
+          module: "trig",
+          question: `Ein rechtwinkliges Dreieck hat den Winkel α = ${angle}° und die Ankathete ist ${adjacent} cm lang. Berechne die Gegenkathete. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm",
+          hint: "Bei Gegenkathete und Ankathete brauchst du tan: tan(α) = Gegenkathete / Ankathete. Also Gegenkathete = tan(α) · Ankathete.",
+          explanation: `tan(${angle}°) = Gegenkathete / ${adjacent}. Also Gegenkathete = tan(${angle}°) · ${adjacent} = ${result} cm.`
+        };
+      }
+
+      if (type === 4) {
+        const angle = [20, 25, 30, 35, 40, 45, 50, 55, 60][randomInt(0, 8)];
+        const opposite = randomInt(5, 18);
+        const result = round2(opposite / Math.sin(degToRad(angle)));
+        return {
+          module: "trig",
+          question: `Ein rechtwinkliges Dreieck hat den Winkel α = ${angle}° und die Gegenkathete ist ${opposite} cm lang. Berechne die Hypotenuse. Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "cm",
+          hint: "sin(α) = Gegenkathete / Hypotenuse. Wenn die Hypotenuse gesucht ist: Hypotenuse = Gegenkathete / sin(α).",
+          explanation: `sin(${angle}°) = ${opposite} / Hypotenuse. Also Hypotenuse = ${opposite} / sin(${angle}°) = ${result} cm.`
+        };
+      }
+
+      if (type === 5) {
+        const opposite = randomInt(3, 12);
+        const adjacent = randomInt(4, 15);
+        const result = round2(opposite / adjacent);
+        return {
+          module: "trig",
+          question: `In einem rechtwinkligen Dreieck ist die Gegenkathete ${opposite} cm und die Ankathete ${adjacent} cm lang. Berechne tan(α). Runde auf zwei Nachkommastellen.`,
+          answer: result,
+          unit: "",
+          hint: "tan(α) = Gegenkathete / Ankathete.",
+          explanation: `tan(α) = ${opposite} / ${adjacent} = ${result}.`
+        };
+      }
+
+      const adjacent = randomInt(5, 14);
+      const hyp = adjacent + randomInt(4, 12);
+      const result = round2(adjacent / hyp);
+      return {
+        module: "trig",
+        question: `In einem rechtwinkligen Dreieck ist die Ankathete ${adjacent} cm und die Hypotenuse ${hyp} cm lang. Berechne cos(α). Runde auf zwei Nachkommastellen.`,
+        answer: result,
+        unit: "",
+        hint: "cos(α) = Ankathete / Hypotenuse.",
+        explanation: `cos(α) = ${adjacent} / ${hyp} = ${result}.`
+      };
+    }
+
+    function generatePercentTask() {
+      const type = randomInt(1, 3);
+
+      if (type === 1) {
+        const price = randomInt(20, 120);
+        const percent = [10, 15, 20, 25, 30, 40, 50][randomInt(0, 6)];
+        const discount = round2((price * percent) / 100);
+        const result = round2(price - discount);
+        return {
+          module: "percent",
+          question: `Ein Pullover kostet ${price} €. Er ist um ${percent} % reduziert. Wie viel kostet er jetzt?`,
+          answer: result,
+          unit: "€",
+          hint: "Erst Rabatt ausrechnen, dann vom alten Preis abziehen.",
+          explanation: `${percent} % von ${price} € sind ${discount} €. Neuer Preis: ${price} € - ${discount} € = ${result} €.`
+        };
+      }
+
+      if (type === 2) {
+        const base = randomInt(50, 300);
+        const percent = [5, 10, 20, 25, 30, 40][randomInt(0, 5)];
+        const result = round2((base * percent) / 100);
+        return {
+          module: "percent",
+          question: `In einer Klasse sind ${base} Schüler/innen. ${percent} % davon nehmen an einem Projekt teil. Wie viele sind das?`,
+          answer: result,
+          unit: "Personen",
+          hint: "Prozentwert = Grundwert · Prozentsatz / 100.",
+          explanation: `${base} · ${percent} / 100 = ${result}. Also nehmen ${result} Personen teil.`
+        };
+      }
+
+      const finalPrice = randomInt(30, 100);
+      const percent = [10, 20, 25, 50][randomInt(0, 3)];
+      const original = round2(finalPrice / (1 - percent / 100));
+      return {
+        module: "percent",
+        question: `Nach einem Rabatt von ${percent} % kostet ein Artikel ${finalPrice} €. Wie viel hat er vorher gekostet?`,
+        answer: original,
+        unit: "€",
+        hint: `${100 - percent} % des alten Preises sind noch übrig.`,
+        explanation: `${finalPrice} € entsprechen ${100 - percent} %. Alter Preis: ${finalPrice} / ${(100 - percent) / 100} = ${original} €.`
+      };
+    }
+
+    function generateEquationTask() {
+      const x = randomInt(2, 15);
+      const a = randomInt(2, 9);
+      const b = randomInt(1, 20);
+      const result = a * x + b;
+      return {
+        module: "equations",
+        question: `Löse die Gleichung: ${a}x + ${b} = ${result}`,
+        answer: x,
+        unit: "",
+        hint: `Erst ${b} abziehen, dann durch ${a} teilen.`,
+        explanation: `${a}x + ${b} = ${result}. Zuerst -${b}: ${a}x = ${result - b}. Dann durch ${a}: x = ${x}.`
+      };
+    }
+
+    function generateBasicsTask() {
+      const type = randomInt(1, 3);
+
+      if (type === 1) {
+        const a = randomInt(-12, 12);
+        const b = randomInt(-12, 12);
+        return {
+          module: "basics",
+          question: `Berechne: ${a} ${b < 0 ? "-" : "+"} ${Math.abs(b)}`,
+          answer: a + b,
+          unit: "",
+          hint: "Vorzeichen ruhig bewusst mitdenken.",
+          explanation: `${a} ${b < 0 ? "-" : "+"} ${Math.abs(b)} = ${a + b}.`
+        };
+      }
+
+      if (type === 2) {
+        const a = randomInt(2, 8);
+        const b = randomInt(2, 9);
+        const c = randomInt(1, 10);
+        return {
+          module: "basics",
+          question: `Berechne: ${a} · (${b} + ${c})`,
+          answer: a * (b + c),
+          unit: "",
+          hint: "Immer erst die Klammer.",
+          explanation: `Zuerst ${b} + ${c} = ${b + c}. Dann ${a} · ${b + c} = ${a * (b + c)}.`
+        };
+      }
+
+      const denominator = [2, 4, 5, 10][randomInt(0, 3)];
+      const numerator = randomInt(1, denominator - 1);
+      return {
+        module: "basics",
+        question: `Wandle den Bruch ${numerator}/${denominator} in eine Dezimalzahl um.`,
+        answer: round2(numerator / denominator),
+        unit: "",
+        hint: "Zähler durch Nenner teilen.",
+        explanation: `${numerator} : ${denominator} = ${round2(numerator / denominator)}.`
+      };
+    }
+
+    function generateCareTask() {
+      const type = randomInt(1, 3);
+
+      if (type === 1) {
+        const bottles = randomInt(2, 8);
+        const ml = [250, 500, 750][randomInt(0, 2)];
+        return {
+          module: "care",
+          question: `Eine Person trinkt ${bottles} Flaschen mit je ${ml} ml. Wie viele Liter sind das?`,
+          answer: round2((bottles * ml) / 1000),
+          unit: "l",
+          hint: "Erst ml gesamt, dann durch 1000.",
+          explanation: `${bottles} · ${ml} ml = ${bottles * ml} ml. ${bottles * ml} ml : 1000 = ${round2((bottles * ml) / 1000)} l.`
+        };
+      }
+
+      if (type === 2) {
+        const start = randomInt(7, 11);
+        const hours = randomInt(2, 5);
+        const minutes = [15, 30, 45][randomInt(0, 2)];
+        return {
+          module: "care",
+          question: `Ein Dienst beginnt um ${start}:00 Uhr und dauert ${hours} Stunden und ${minutes} Minuten. Um wie viel Uhr endet er? Gib die Uhrzeit als Dezimalzahl ein, z. B. 12,5 für 12:30.`,
+          answer: start + hours + minutes / 60,
+          unit: "Uhr",
+          hint: "15 Minuten = 0,25 h · 30 Minuten = 0,5 h · 45 Minuten = 0,75 h.",
+          explanation: `${minutes} Minuten = ${minutes / 60} Stunden. Ende: ${start} + ${hours} + ${minutes / 60} = ${start + hours + minutes / 60} Uhr.`
+        };
+      }
+
+      const people = randomInt(3, 9);
+      const portion = [150, 200, 250][randomInt(0, 2)];
+      return {
+        module: "care",
+        question: `Für ${people} Personen werden jeweils ${portion} g Suppe eingeplant. Wie viele kg Suppe braucht man insgesamt?`,
+        answer: round2((people * portion) / 1000),
+        unit: "kg",
+        hint: "Erst Gramm insgesamt, dann durch 1000.",
+        explanation: `${people} · ${portion} g = ${people * portion} g. Das sind ${round2((people * portion) / 1000)} kg.`
+      };
+    }
+
+    function generateTask(moduleId) {
+      if (moduleId === "geometry") return generateGeometryTask();
+      if (moduleId === "surface") return generateSurfaceTask();
+      if (moduleId === "trig") return generateTrigTask();
+      if (moduleId === "percent") return generatePercentTask();
+      if (moduleId === "equations") return generateEquationTask();
+      if (moduleId === "basics") return generateBasicsTask();
+      if (moduleId === "care") return generateCareTask();
+      return generateGeometryTask();
+    }
+
+    function moduleAccuracy(moduleId) {
+      const stats = progress.moduleStats[moduleId] || { answered: 0, correct: 0 };
+      if (!stats.answered) return "neu";
+      return `${Math.round((stats.correct / stats.answered) * 100)} %`;
+    }
+
+    function getModuleById(moduleId) {
+      return modules.find((m) => m.id === moduleId) || modules[0];
+    }
+
+    function setTask(moduleId = selectedModule) {
+      task = generateTask(moduleId);
+      const module = getModuleById(task.module);
+
+      document.getElementById("question").textContent = task.question;
+      document.getElementById("unit").textContent = task.unit || "";
+      document.getElementById("answerInput").value = "";
+      document.getElementById("hintBox").innerHTML = "";
+      document.getElementById("feedbackBox").innerHTML = "";
+      document.getElementById("calcPreview").innerHTML = "";
+      document.getElementById("moduleChip").textContent = `${module.emoji} ${module.title}`;
+      document.getElementById("challengeChip").textContent = challengeTexts[randomInt(0, challengeTexts.length - 1)];
+      document.getElementById("focusText").textContent = module.subtitle;
+      document.getElementById("answerInput").focus();
+    }
+
+    function renderModules() {
+      const list = document.getElementById("moduleList");
+      list.innerHTML = "";
+
+      modules.forEach((mod) => {
+        const btn = document.createElement("button");
+        btn.className = `module-btn ${selectedModule === mod.id ? "active" : ""}`;
+        btn.innerHTML = `
+          <div class="module-row">
+            <div>
+              <div class="module-name">${mod.emoji} ${mod.title}</div>
+              <div class="module-sub">${mod.subtitle}</div>
+            </div>
+            <div class="module-score">${moduleAccuracy(mod.id)}</div>
+          </div>
+        `;
+        btn.addEventListener("click", () => {
+          selectedModule = mod.id;
+          renderModules();
+          setTask(mod.id);
+        });
+        list.appendChild(btn);
+      });
+    }
+
+    function getLevelInfo() {
+      const a = progress.answered;
+      if (a < 10) return { label: "Level 1 · Warmwerden", text: "Mit jeder gelösten Aufgabe wird das hier mehr dein Terrain." };
+      if (a < 25) return { label: "Level 2 · Im Flow", text: "Du wirst sicherer. Genau jetzt zahlt sich Dranbleiben aus." };
+      if (a < 50) return { label: "Level 3 · Solide", text: "Nicht perfekt nötig — du checkst schon deutlich mehr als vorher." };
+      if (a < 80) return { label: "Level 4 · Stark", text: "Okay wow, du baust hier gerade echte Routine auf." };
+      return { label: "Level 5 · Mathe Aura", text: "Du hast dir diesen Glow-Up ehrlich verdient." };
+    }
+
+    function renderMood() {
+      const mood = moodMessages[progress.answered % moodMessages.length];
+      const level = getLevelInfo();
+      document.getElementById("moodTitle").textContent = mood.title;
+      document.getElementById("moodText").textContent = mood.text;
+      document.getElementById("levelLabel").textContent = level.label;
+      document.getElementById("levelText").textContent = level.text;
+      document.getElementById("focusLabel").textContent = "Aktueller Fokus";
+    }
+
+    function renderStats() {
+      const accuracy = progress.answered ? Math.round((progress.correct / progress.answered) * 100) : 0;
+      const dailyPercent = Math.min(100, Math.round((progress.answered / dailyGoal) * 100));
+      document.getElementById("answered").textContent = progress.answered;
+      document.getElementById("accuracy").textContent = `${accuracy} %`;
+      document.getElementById("streak").textContent = progress.streak;
+      document.getElementById("errorCount").textContent = progress.errors.length;
+      document.getElementById("dailyBar").style.width = `${dailyPercent}%`;
+    }
+
+    function renderErrors() {
+      const errorList = document.getElementById("errorList");
+      if (!progress.errors.length) {
+        errorList.innerHTML = `<div class="empty">Noch leer — was ehrlich ziemlich gut ist. Falls doch mal was falsch läuft, landet es hier zum Wiederholen.</div>`;
+        return;
+      }
+
+      errorList.innerHTML = `<div class="error-list">${
+        progress.errors.slice(0, 8).map((error) => `
+          <div class="error-item">
+            <div class="error-head">
+              <div class="error-q">${escapeHtml(error.question)}</div>
+              <div class="error-date">${escapeHtml(error.date)}</div>
+            </div>
+            <div class="small">Richtig: <strong>${escapeHtml(error.correctAnswer)}</strong></div>
+            <div class="small">${escapeHtml(error.explanation)}</div>
+          </div>
+        `).join("")
+      }</div>`;
+    }
+
+    function renderAll() {
+      renderStats();
+      renderModules();
+      renderErrors();
+      renderMood();
+      saveProgress();
+    }
+
+    function feedbackCopySuccess() {
+      const lines = [
+        "Yes — richtig.",
+        "Stark. Genau das war’s.",
+        "Sauber gelöst.",
+        "Nice, das passt.",
+        "Sehr gut — weiter so."
+      ];
+      return lines[randomInt(0, lines.length - 1)];
+    }
+
+    function feedbackCopyError() {
+      const lines = [
+        "Fast — wir schauen kurz zusammen drauf.",
+        "Noch nicht ganz. Aber easy, wir lösen’s auf.",
+        "Knapp daneben. Die richtige Idee holen wir uns jetzt.",
+        "Nicht schlimm — genau dafür ist das Training da.",
+        "Okay, noch nicht. Aber jetzt wird’s klar."
+      ];
+      return lines[randomInt(0, lines.length - 1)];
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value;
+      const parsed = evaluateMathInput(input);
+      const feedback = document.getElementById("feedbackBox");
+
+      if (!parsed.ok) {
+        feedback.innerHTML = `<div class="notice warning"><strong>Gib eine Zahl oder eine Rechnung ein.</strong>Zum Beispiel: 8*5*3, 2*(4+6), pi*4^2*10 oder 3,14*4^2*10.</div>`;
+        return;
+      }
+
+      const value = parsed.value;
+      const tolerance = Math.abs(task.answer) < 1 ? 0.02 : 0.05;
+      const isCorrect = Math.abs(value - task.answer) <= tolerance;
+
+      progress.answered += 1;
+      if (!progress.moduleStats[task.module]) progress.moduleStats[task.module] = { answered: 0, correct: 0 };
+      progress.moduleStats[task.module].answered += 1;
+
+      if (isCorrect) {
+        progress.correct += 1;
+        progress.streak += 1;
+        progress.moduleStats[task.module].correct += 1;
+        feedback.innerHTML = `
+          <div class="notice success">
+            <strong>${feedbackCopySuccess()}</strong>
+            ${escapeHtml(task.explanation)}
+          </div>
+        `;
+      } else {
+        progress.streak = 0;
+        progress.errors = [
+          {
+            question: task.question,
+            correctAnswer: `${task.answer}${task.unit ? " " + task.unit : ""}`,
+            explanation: task.explanation,
+            module: task.module,
+            date: new Date().toLocaleDateString("de-DE")
+          },
+          ...progress.errors
+        ].slice(0, 20);
+
+        feedback.innerHTML = `
+          <div class="notice error">
+            <strong>${feedbackCopyError()}</strong>
+            Richtig wäre: ${escapeHtml(String(task.answer))}${task.unit ? " " + escapeHtml(task.unit) : ""}.<br>${escapeHtml(task.explanation)}
+          </div>
+        `;
+      }
+
+      renderAll();
+    }
+
+    function updateCalculationPreview() {
+      const input = document.getElementById("answerInput").value.trim();
+      const preview = document.getElementById("calcPreview");
+
+      if (!input) {
+        preview.innerHTML = "";
+        return;
+      }
+
+      const looksLikeCalculation = /[+\-*/^()×·:π]|pi|²|³/.test(input.toLowerCase());
+      if (!looksLikeCalculation) {
+        preview.innerHTML = "";
+        return;
+      }
+
+      const parsed = evaluateMathInput(input);
+      if (parsed.ok) {
+        preview.innerHTML = `Rechnung erkannt: <strong>= ${escapeHtml(formatNumber(parsed.value))}</strong>`;
+      } else {
+        preview.innerHTML = `Rechnung noch nicht vollständig. Beispiele: <strong>8*5*3</strong> oder <strong>pi*4^2*10</strong>`;
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    document.getElementById("checkBtn").addEventListener("click", checkAnswer);
+    document.getElementById("answerInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") checkAnswer();
+    });
+    document.getElementById("answerInput").addEventListener("input", updateCalculationPreview);
+
+    document.getElementById("hintBtn").addEventListener("click", () => {
+      const hintBox = document.getElementById("hintBox");
+      if (hintBox.innerHTML) {
+        hintBox.innerHTML = "";
+      } else {
+        hintBox.innerHTML = `<div class="notice hint"><strong>Tipp</strong>${escapeHtml(task.hint)}</div>`;
+      }
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => setTask());
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!confirm("Wirklich alles zurücksetzen?")) return;
+      progress = clone(initialProgress);
+      renderAll();
+      setTask();
+    });
+
+    document.getElementById("themeSelect").addEventListener("change", (event) => {
+      applyTheme(event.target.value);
+    });
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      document.getElementById("installBox").classList.add("show");
+    });
+
+    document.getElementById("installBtn").addEventListener("click", async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      document.getElementById("installBox").classList.remove("show");
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      });
+    }
+
+    applyTheme(loadTheme());
+    renderAll();
+    setTask("geometry");
+  </script>
+</body>
+</html>
